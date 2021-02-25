@@ -1,0 +1,10 @@
+{
+  "verbose": true,
+  "watch": [
+    ".env",
+    "next.config.js",
+    "nodemon.json",
+    "server.js"
+  ]
+}
+
