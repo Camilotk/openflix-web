@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 import { useEffect, useState } from 'react'
 import Layout from '../components/layout/Layout'
 import VideoListing from '../components/shards/VideoListing'
+import api from "../services/api";
 import { render } from 'react-dom'
 import axios from 'axios'
 
@@ -49,16 +50,11 @@ export default function Home() {
     logo: "https://camo.githubusercontent.com/629aa0f8d1cfc1b33d2f0572b7901cf11321d2ba7916925a87fbd566b39f5e95/68747470733a2f2f692e6962622e636f2f5a634b7135526b2f6f70656e666c69782d6c6f676f2e706e67"
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios(
-        'http://localhost:3333/videos',
-      );
- 
-      console.log(result.data)
-    };
- 
-    fetchData();
+  useEffect(_ => {
+    (async _ => {
+      const {data} = await api().get('/videos')
+      setCategories(data)
+    })()
   }, [])
 
   return (
