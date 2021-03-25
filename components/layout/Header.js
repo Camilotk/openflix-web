@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
+import { getAccessToken } from "../../services/auth";
 export default function Header({ logo }) {
+    const [accessToken, setAccessToken] = useState(false)
+
     const menus = [
         { name: 'Home', link:'#' },
         { name: 'TV Shows', link:'#' },
@@ -6,6 +10,12 @@ export default function Header({ logo }) {
         { name: 'Originals', link:'#' },
         { name: 'Recently Added', link:'#' },
     ]
+
+    useEffect(_ => {
+        (_ => {
+          setAccessToken(getAccessToken())
+        })()
+      }, [])
 
     return (
         <header>
@@ -20,9 +30,12 @@ export default function Header({ logo }) {
             </nav>
             
             <nav className="sub-nav">
-                <a href="#"><i className="fas fa-search sub-nav-logo"></i></a>
-                <a href="#"><i className="fas fa-bell sub-nav-logo"></i></a>
-                <a href="#">Account</a>        
+                {/* <a href="#"><i className="fas fa-search sub-nav-logo"></i></a>
+                <a href="#"><i className="fas fa-bell sub-nav-logo"></i></a> */}
+                {
+                    accessToken ? (<a href="#">Log Out</a>)  : (<a href="#">Sign In</a>)             
+                }
+                       
             </nav>
 
             <style jsx>
