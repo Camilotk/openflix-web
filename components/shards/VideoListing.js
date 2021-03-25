@@ -1,17 +1,19 @@
 export default function VideoListing({ categories }) {
     return (
         <>
-            {categories.data.map((section, index) => (
-                    <div className="location" id="home">
-                        <h1 id="home">{section.title}</h1>
-                        <div className="box">
-                            {section.contents.map((content, index) => (
-                                <a href={content.url}><img src={content.thumbnail} alt={content.alt} /></a> 
-                            ))}
-                        </div>
-                    </div>
-                )
-            )}
+            <h1 id="home">Videos</h1>
+            <div className="location" id="home">
+                <div className="box">
+                    { categories.data.map((content, index) => (
+                        <>
+                        {console.log(content.links && content.links.url_1080)}
+                        <a href={content.links && content.links.url_1080}><img src={content.thumbnail} /></a>
+                        </>
+                        )
+                    )}
+                </div>
+            </div>
+            
             <style jsx>
                 {`
                 img {
