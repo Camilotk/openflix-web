@@ -27,12 +27,12 @@ export default function Header({ logo }) {
     return (
         <>
             <section className="link">
-                <div className="logos">
+                {/* <div className="logos">
                     { (socialMediaLinks.facebook)? <a href={socialMediaLinks.facebook.url}><i className="fab fa-facebook-square fa-2x logo"></i></a> : '' }
                     { (socialMediaLinks.instagram)? <a href={socialMediaLinks.instagram.url}><i className="fab fa-instagram fa-2x logo"></i></a> : '' }
                     { (socialMediaLinks.twitter)? <a href={socialMediaLinks.twitter.url}><i className="fab fa-twitter fa-2x logo"></i></a> : '' }
                     { (socialMediaLinks.youtube)? <a href={socialMediaLinks.youtube.url}><i className="fab fa-youtube fa-2x logo"></i></a> : '' }
-                </div>
+                </div> */}
                 <div className="sub-links">
                     <ul>
                         {additionalLinks.map((link, index) => (
