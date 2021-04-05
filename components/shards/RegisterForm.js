@@ -4,19 +4,18 @@ import axios from 'axios'
 import { getAccessToken, setAccessToken } from "../../services/auth";
 import Router from 'next/router'
 import clsx from 'clsx'
-import Link from 'next/link'
 
 import { 
+    TextField,
     Button,
+    Input,
     FilledInput,
+    OutlinedInput,
     InputAdornment,
     IconButton,
     FormControl,
-    FormControlLabel,
     InputLabel,
-    Checkbox,
-    FormGroup,
-    Typography,
+    FormHelperText
 } from "@material-ui/core"
 
 import {
@@ -24,6 +23,15 @@ import {
     VisibilityOff
 } from '@material-ui/icons'
 
+const register = async (username, email, password) => {
+    const request = await axios.post('http://localhost:3333/users', {
+        username,
+        email,
+        password
+    })
+    const isSuccess  = request.status === 201
+    return isSuccess
+}
 
 const login = async (email, password) => {
     const request = await axios.post('http://localhost:3333/sessions', {
@@ -34,9 +42,19 @@ const login = async (email, password) => {
     return token
 }
 
-async function handleSubmit(e, email, password) {
-    e.preventDefault();
+async function handleRegister(username, email, password) {
+    try {
+        const isRegistered = await register(username, email, password)
+        if (isRegistered) {
+            handleLogin(email, password)
+        }
+    } catch (error) {
+        console.table(error)
+    }
 
+}
+
+async function handleLogin(email, password) {
     try {
         const access_token = await login(email, password)
         setAccessToken(access_token)
@@ -53,18 +71,32 @@ async function handleSubmit(e, email, password) {
 }
 
 export default function LoginForm() {
-    
+
     const [loginError, setLoginError] = useState('')
     const [showPassword, setShowPassword] = useState(false)
     const [email, setEmail] = useState('')
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [checked, setChecked] = useState(false)
+    const [confirmPassword, setConfirmPassword] = useState('')
 
     return (
         <div className="App">
             <form className="form">
-                <h2 style={{marginBottom: 20}}>Sign In</h2>
-                <FormGroup row>
+                <h2 style={{marginBottom: 20}}>Sign Up</h2>
+
+                <FormControl variant="filled" fullWidth={true}>
+                    <InputLabel htmlFor="frmUsername">Username</InputLabel>
+                    <FilledInput
+                        id="frmUsername"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        type="text"
+                        style={{marginBottom: 15,  color: "#FFF"}}
+                        labelWidth={50}
+                        
+                    />
+                </FormControl>
+
                 <FormControl variant="filled" fullWidth={true}>
                     <InputLabel htmlFor="frmEmail">E-mail</InputLabel>
                     <FilledInput
@@ -77,9 +109,7 @@ export default function LoginForm() {
                         
                     />
                 </FormControl>
-                </FormGroup>
 
-                <FormGroup row>
                 <FormControl variant="filled" fullWidth={true}>
                     <InputLabel htmlFor="frmPassword">Password</InputLabel>
                     <FilledInput
@@ -103,34 +133,39 @@ export default function LoginForm() {
                         style={{marginBottom: 20, color: "#FFF"}}
                     />
                 </FormControl>
-                </FormGroup>
 
-                <FormGroup row>
+                <FormControl variant="filled" fullWidth={true}>
+                    <InputLabel htmlFor="frmConfirmPassword">ConfirmPassword</InputLabel>
+                    <FilledInput
+                        id="frmConfirmPassword"
+                        type={showPassword ? 'text' : 'password'}
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() => setShowPassword(!showPassword)}
+                            onMouseDown={(e) => e.preventDefault}
+                            edge="end"
+                            >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                        </InputAdornment>
+                        }
+                        labelWidth={77}
+                        style={{marginBottom: 20, color: "#FFF"}}
+                    />
+                </FormControl>
+
                 <Button 
                     color="primary" 
                     className="form__custom-button" 
                     variant="contained"
                     fullWidth={true}
-                    onClick={(e) => handleSubmit(e, email, password)}>
+                    onClick={(e) => handleRegister(username, email, password)}>
                     Sign In
                 </Button>
-                </FormGroup>
-
-                <FormGroup row>
-                <FormControlLabel
-                    control={
-                    <Checkbox
-                        checked={checked}
-                        onChange={() => setChecked(!checked)}
-                        name="remember"
-                        color="primary"
-                    />
-                    }
-                    label="Remember me"
-                />
-                </FormGroup>
-
-                <Typography>New to Openflix? <Link href={{pathname: '/register'}}>Sign up now.</Link></Typography>
             </form>
             {loginError && <p style={{color: 'red'}}>{loginError}</p>}
         
