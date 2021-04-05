@@ -2,10 +2,9 @@ import Head from 'next/head'
 import styles from '../public/styles/Home.module.css'
 import { useEffect, useState } from 'react'
 import Layout from '../components/layout/Layout'
-import LoginForm from '../components/shards/LoginForm'
+import RegisterForm from '../components/shards/RegisterForm'
 import { render } from 'react-dom'
 import axios from 'axios'
-
 
 
 export default function Login() {
@@ -15,7 +14,7 @@ export default function Login() {
   
   return (
     <Layout imgs={urls}>
-      <LoginForm />
+      <RegisterForm />
     </Layout>
   )
 }

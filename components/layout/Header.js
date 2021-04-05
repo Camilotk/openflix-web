@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react";
-import { getAccessToken } from "../../services/auth";
+import { useEffect, useState } from "react"
+import { getAccessToken, removeAccessToken } from "../../services/auth"
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
 export default function Header({ logo }) {
     const [accessToken, setAccessToken] = useState(false)
+    const router = useRouter()
 
     const menus = [
         { name: 'Home', link:'#' },
@@ -15,12 +19,19 @@ export default function Header({ logo }) {
         (_ => {
           setAccessToken(getAccessToken())
         })()
-      }, [])
+    }, [])
+
+    const handleLogout = _ => {
+        // e.preventDefault()
+        removeAccessToken()
+        localStorage.removeItem('token')
+        router.push('/')
+    }
 
     return (
         <header>
             <div className="mainLogo">
-                <a id="logo" href="#home"><img src={logo} alt="Logo Image" /></a>
+                <a id="logo" href="/"><img src={logo} alt="Logo Image" /></a>
             </div>
 
             <nav className="main-nav">
@@ -33,7 +44,7 @@ export default function Header({ logo }) {
                 {/* <a href="#"><i className="fas fa-search sub-nav-logo"></i></a>
                 <a href="#"><i className="fas fa-bell sub-nav-logo"></i></a> */}
                 {
-                    accessToken ? (<a href="#">Log Out</a>)  : (<a href="#">Sign In</a>)             
+                    accessToken ? (<a href="/" onClick={() => handleLogout()} >Log Out</a>)  : (<a href="/login">Sign In</a>)             
                 }
                        
             </nav>

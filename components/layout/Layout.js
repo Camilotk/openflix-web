@@ -8,9 +8,9 @@ export default function Layout({imgs, children}) {
 
     useEffect(() => {
         //return () => {
-          document.body.style = 'width: 100vw;min-height: 100vh;margin: 0;padding: 0;background-color: #000;color: #FFF;font-family: Arial, Helvetica, sans-serif;box-sizing: border-box;line-height: 1.4;'
+          document.body.style = 'margin: 0;padding: 0;background-color: #000;color: #FFF;font-family: Arial, Helvetica, sans-serif;box-sizing: border-box;line-height: 1.4;'
         //}
-    }, []);
+    }, [])
      
     return (
         <div className='content-container'>
