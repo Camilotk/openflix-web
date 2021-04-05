@@ -1,13 +1,35 @@
+import { useRouter } from 'next/router'
+
 export default function VideoListing({ categories }) {
+    const router = useRouter()
+
     return (
         <>
-            <h1 id="home">Videos</h1>
+            {/* <h1 id="home">Videos</h1>
             <div className="location" id="home">
                 <div className="box">
                     { categories.data.map((content, index) => (
                         <>
                         {console.log(content.links && content.links.url_1080)}
                         <a href={content.links && content.links.url_1080}><img src={content.thumbnail} /></a>
+                        </>
+                        )
+                    )}
+                </div>
+            </div> */}
+
+            <h1 id="home">Videos</h1>
+            <div className="location" id="home">
+                <div className="box">
+                    { categories.data.map((content, index) => (
+                        <>
+                        {console.log(content.links && content.links.url_1080)}
+                        <a onClick={() => {
+                            router.push({
+                                pathname: `/videos/content/watch`,
+                                query: { url: (content.links) ? content.links.url_1080 : window.location.href = '/' }
+                            })
+                        }}><img src={content.thumbnail} /></a>
                         </>
                         )
                     )}

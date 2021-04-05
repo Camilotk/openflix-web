@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import styles from '../public/styles/Home.module.css'
 import { useEffect, useState } from 'react'
 import Layout from '../components/layout/Layout'
 import VideoListing from '../components/shards/VideoListing'
